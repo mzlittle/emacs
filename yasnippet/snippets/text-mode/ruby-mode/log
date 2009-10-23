@@ -1,0 +1,4 @@
+#name : debug
+#group : definitions
+# --
+RAILS_DEFAULT_LOGGER.debug("PDS ${1:FOO} >> #{$1.inspect} (#{__LINE__})")$0$>

@@ -1,0 +1,4 @@
+#name : debug puts
+#group : definitions
+# --
+puts "PDS >> ${1:FOO} : #{$1.inspect} (#{__LINE__} #{__FILE__.split("/").last})"$0$>

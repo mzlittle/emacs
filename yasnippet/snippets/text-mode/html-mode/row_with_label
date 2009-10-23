@@ -1,0 +1,5 @@
+#contributor : Peter Stradinger <emlprime@gmail.com>
+#name : row_with_label
+#group : crappy_rails_table
+# --
+  <% f.with_label "${LABEL}" do %> <%= @${OBJECT}["${FIELD_NAME}"] %> <% end %>$0

@@ -1,0 +1,6 @@
+#name : module 
+#group : definitions
+# --
+module ${MODULE_NAME}$>
+  $0$>
+end$>

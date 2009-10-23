@@ -1,0 +1,9 @@
+require File.expand_path(File.dirname(__FILE__) + '/../mock_spec_helper')
+
+describe ${1:OBJECT_UNDER_TEST} do$>
+  context "Given ${2:CONDITION}" do$>
+    context "When ${3:ACTION}" do$>
+      it "Should ${4:EXPECTATION}"$0$>
+    end$>
+  end$>
+end$>

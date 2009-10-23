@@ -1,0 +1,4 @@
+#name : debug foo
+#group : definitions
+# --
+puts "PDS >> ${FOO} : (#{__LINE__} #{__FILE__.split("/").last})"$0

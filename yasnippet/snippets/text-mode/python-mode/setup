@@ -1,0 +1,6 @@
+    def setUp(self):$>
+        "When I view ${1:URL}"$>
+        CommonTestCase.setUp(self)$>
+        self.${2:OBJECT} = ${2:$(capitalize text)}.objects.create($3)$>
+        url = self.$2.get_${4:URL_NAME}_url()$>
+        self.doc = self.alice.visits_aPage(url)$>

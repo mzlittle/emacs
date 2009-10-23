@@ -1,0 +1,4 @@
+#name : 
+#group : general
+# --
+:${1:key} => ${1:value}$0$>

@@ -1,0 +1,5 @@
+#name tab_list
+#group : general
+# --
+with_tag("td", /${1:HEADER}/)
+with_tag("td", /#{@expected_data["${2:fieldname}"]}/)$0$>

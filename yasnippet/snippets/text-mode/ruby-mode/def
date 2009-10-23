@@ -1,0 +1,6 @@
+#name : def
+#group : definitions
+# --
+def ${initialize}$>
+$0$>
+end$>

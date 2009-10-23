@@ -1,0 +1,5 @@
+# -*- coding: utf-8 -*-
+# name: log
+# contributor: Peter Stradinger
+# --
+print "PDS >> ${1:FOO}: %s" % ${1:FOO}$0

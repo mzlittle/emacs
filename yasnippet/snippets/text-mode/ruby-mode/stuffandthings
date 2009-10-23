@@ -1,0 +1,3 @@
+blah ${1:stuff} do
+  $0
+end

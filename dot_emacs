@@ -1,0 +1,170 @@
+(add-to-list 'load-path "~/.emacs.d/")
+
+;; Because dark is cool
+(set-background-color "black")
+(set-foreground-color "grey")
+
+;; and bigger is better
+(add-to-list 'default-frame-alist '(width . 120))
+(add-to-list 'default-frame-alist '(height . 40))
+(put 'narrow-to-region 'disabled nil)
+(setq-default fill-column 90)
+(setq visible-bell t)
+(transient-mark-mode 0)
+(setq ring-bell-function 'ignore) 
+(set-default-font "Inconsolata-14")
+
+;; Mac config
+;;(mac-key-mode)
+;;(setq mac-command-key-is-meta t)
+(setq mac-option-modifier 'meta)
+(tool-bar-mode -1)
+(menu-bar-mode -1)
+(global-auto-revert-mode 1)
+
+;; Org Mode Config
+(global-font-lock-mode 1)                     ; for all buffers
+(add-hook 'org-mode-hook 'turn-on-font-lock)  ; org-mode buffers only
+(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+(setq org-log-done t)
+(setq visual-line-mode t)
+(setq org-hide-leading-stars t)
+(setq org-todo-keywords '("TODO" "DOING" "DONE")
+           org-todo-interpretation 'sequence)
+
+;; useful python stuff
+(defun my-compile ()
+  "Use compile to run python programs"
+  (interactive)
+  (compile (concat "python " (buffer-name))))
+(setq compilation-scroll-output t)
+(local-set-key "\C-c\C-e" 'my-compile)
+
+;; Buffers get unique names
+(require 'uniquify)
+(setq uniquify-buffer-name-style 'reverse)
+(setq uniquify-separator "/")
+(setq uniquify-after-kill-buffer-p t) ; rename after killing uniquifier
+(setq uniquify-ignore-buffers-re "^\\*") ; don't muck with special buffers
+
+;; git options
+
+(add-to-list 'load-path "~/.emacs.d/egg/")
+(require 'egg)
+;; startup options
+(custom-set-variables
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(inhibit-startup-screen t))
+
+(add-to-list 'load-path "~/.emacs.d/rhtml/")
+(add-to-list 'load-path "~/.emacs.d/emacs-rails/")
+(require 'nxml-mode)
+(require 'rhtml-mode)
+(require 'rails)
+
+;; snippets
+(add-to-list 'load-path "~/.emacs.d/yasnippet/")
+(require 'yasnippet) ;; not yasnippet-bundle
+(yas/initialize)
+(yas/load-directory "~/.emacs.d/yasnippet/snippets")
+
+(global-set-key "\C-x\C-b" 'buffer-menu)
+
+(add-to-list 'load-path "~/.emacs.d/color-theme")
+(require 'color-theme)
+(color-theme-initialize)
+(color-theme-comidia)
+(custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(flymake-errline ((((class color) (background dark)) (:background "#111111"))))
+ '(font-lock-comment-face ((t (:foreground "limegreen"))))
+ '(font-lock-constant-face ((t (:foreground "BlueViolet"))))
+ '(font-lock-keyword-face ((t (:foreground "#6888f0"))))
+ '(font-lock-string-face ((t (:foreground "grey52"))))
+ '(font-lock-type-face ((t (:foreground "grey26"))))
+ '(font-lock-variable-name-face ((t (:foreground "DodgerBlue1"))))
+ '(isearch ((t (:background "black" :foreground "red"))))
+ '(lazy-highlight ((((class color) (min-colors 88) (background dark)) (:background "#001111" :foreground "sienna"))))
+ '(show-paren-match ((((class color) (background dark)) (:foreground "purple" :weight bold))))
+ '(yas/field-highlight-face ((t (:background "grey8")))))
+
+(show-paren-mode 1)
+
+(require 'browse-kill-ring)
+(global-set-key (kbd "C-c k") 'browse-kill-ring)
+
+;;(require 'def-snippet)
+
+;; Python mode ext
+(add-hook 'python-mode-hook
+       	  '(lambda ()
+             (load "py-mode-ext")  
+             (load "pyp")
+             (require 'pycomplete)
+             (define-key py-mode-map [f12] 'pyp)
+             (define-key py-mode-map "\C-c\C-c" 'py-execute-prog)
+             (define-key py-mode-map "\C-c\C-g" 'py-call-pdb)
+             (define-key py-mode-map "\C-c\C-w" 'pychecker)))
+
+(fset 'hash_to_send
+   (lambda (&optional arg) "Keyboard macro." (interactive "p") (kmacro-exec-ring-item (quote ([134217848 115 101 97 114 99 104 45 102 111 114 119 97 114 100 45 114 101 103 101 120 112 return 92 91 92 34 92 40 92 119 43 92 41 92 34 92 125 backspace 93 return 24 113 backspace backspace 18 91 13 46 4 4] 0 "%d")) arg)))
+
+(global-set-key (kbd "C-c h") 'hash_to_send)
+
+; Install mode-compile to give friendlier compiling support!
+(autoload 'mode-compile "mode-compile"
+   "Command to compile current buffer file based on the major mode" t)
+(global-set-key (kbd "C-c c") 'mode-compile)
+(autoload 'mode-compile-kill "mode-compile"
+ "Command to kill a compilation launched by `mode-compile'" t)
+(global-set-key (kbd "C-c k") 'mode-compile-kill)
+
+(defun move-buffer-file (dir)
+  "Moves both current buffer and file it's visiting to DIR."
+  (interactive "DNew directory: ")
+  (let* ((name (buffer-name))
+	 (filename (buffer-file-name))
+	 (dir
+	  (if (string-match dir "\\(?:/\\|\\\\)$")
+	      (substring dir 0 -1) dir))
+	 (newname (concat dir "/" name)))
+    (if (not filename)
+	(message "Buffer '%s' is not visiting a file!" name)
+      (progn
+	(copy-file filename newname 1)
+	(delete-file filename)
+	(set-visited-file-name newname)
+	(set-buffer-modified-p nil) 	t))))
+
+
+;; Opacity settings
+(defun djcb-opacity-modify (&optional dec)
+  "modify the transparency of the emacs frame; if DEC is t,
+    decrease the transparency, otherwise increase it in 10%-steps"
+  (let* ((alpha-or-nil (frame-parameter nil 'alpha)) ; nil before setting
+          (oldalpha (if alpha-or-nil alpha-or-nil 100))
+          (newalpha (if dec (- oldalpha 5) (+ oldalpha 5))))
+    (when (and (>= newalpha frame-alpha-lower-limit) (<= newalpha 100))
+      (modify-frame-parameters nil (list (cons 'alpha newalpha))))))
+
+ ;; C-8 will increase opacity (== decrease transparency)
+ ;; C-9 will decrease opacity (== increase transparency
+ ;; C-0 will returns the state to normal
+(global-set-key (kbd "C-8") '(lambda()(interactive)(djcb-opacity-modify)))
+(global-set-key (kbd "C-9") '(lambda()(interactive)(djcb-opacity-modify t)))
+(global-set-key (kbd "C-0") '(lambda()(interactive)
+                               (modify-frame-parameters nil `((alpha . 100)))))
+(djcb-opacity-modify t)
+
+(require 'linum)
+(global-set-key (kbd "<f6>") 'linum-mode)
+
+(require 'wc)

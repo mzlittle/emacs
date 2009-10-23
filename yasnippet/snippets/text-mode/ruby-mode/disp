@@ -1,0 +1,5 @@
+#contributor : Peter Stradinger <emlprime@gmail.com>
+#name : disp
+#group : display_object
+# --
+        display_object["${LABEL}"]  = cloud_object["cloud_attributes"]["aws_${FIELD_NAME}"]$0$>

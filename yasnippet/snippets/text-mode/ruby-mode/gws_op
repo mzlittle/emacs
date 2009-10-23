@@ -1,0 +1,6 @@
+        def ${1:action}(params = { })$>
+          params_to_send = { }$>
+          required_params = { }$>
+          operation_description = "${2:OPERATion_description}"$>
+          update(params[:id], params_to_send, required_params, "${3:REST_action}", { :operation_description => operation_description})$>
+        end$>

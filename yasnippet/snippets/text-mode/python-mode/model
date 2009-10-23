@@ -1,0 +1,16 @@
+class ${1:MODEL}(models.Model):
+    "Represents ${2:DESCRIPTION}"$>
+
+    name = models.CharField(max_length=100)$>
+
+    def get_absolute_url(self):$>
+        "return the url to the detail for this object"$>
+        return self.get_list_url() + "%d/" % self.id$>
+
+    def get_list_url(self):$>
+        "return the list url for this class"$>
+        return "/%s/" % self.__class__.__name__.lower()$>
+
+    def get_dom_url(self):$>
+        "return the dom id for labeling an object"$>
+        return "%s_%d" % (self.__class__.__name__.lower(), self.id)$>

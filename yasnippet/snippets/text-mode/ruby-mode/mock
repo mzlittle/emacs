@@ -1,0 +1,1 @@
+should_receive(:${1:METHOD_NAME}).at_least.once.and_return(@expected_data[:$1])$0$>
